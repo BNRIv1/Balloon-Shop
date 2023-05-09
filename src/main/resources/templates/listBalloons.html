@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>Balloon Order page - Welcome and choose a Balloon</title>
+    <style>
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <header class="text-center">
+        <h1>Welcome to our Balloon Shop App</h1>
+        <hr/>
+    </header>
+    <form th:method="POST" th:action="@{/balloons}" id="submitForm"></form>
+
+    <form th:method="GET" th:action="@{/balloons}">
+        <div class="input-group">
+            <div class="form-outline w-100">
+                <input id="search" type="search" class="form-control w-50 mx-auto"  name="search" placeholder="Search...">
+            </div>
+        </div>
+    </form>
+    <div class="text-danger text-center">
+        <strong>
+            <th:block th:if="${hasError == true}" th:text="${error}"></th:block>
+        </strong>
+    </div>
+    <h2>Choose balloon color:</h2>
+    <div class="form-check d-flex justify-content-between balloon-info" th:each = "baloon : ${balloons}">
+        <input class="form-check-input" type="radio" name="color" th:value="${baloon.name}" form="submitForm"><th:block th:text="${baloon.name}"></th:block><br/>
+        <div class="text-right">
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <form th:class="d-inline-block" th:method="delete" th:action="@{'/balloons/delete/{id}' (id=${baloon.getId()})}">
+                    <button type="submit" class="btn btn-sm btn-danger delete-product">
+                        <i class="fa fa-trash">Delete</i>
+                    </button>
+                </form>
+            </th:block>
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <a class="btn btn-sm btn-info edit-product" th:href="@{'/balloons/edit-form/{id}' (id=${baloon.getId()})}">
+                    <i class="fa fa-trash">Edit</i>
+                </a>
+            </th:block>
+        </div>
+    </div>
+
+    <br/>
+
+        <div class="d-flex justify-content-between">
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <a href="/balloons/add-form" class="btn btn-dark w-25 add-product-btn">Add New Balloon</a>
+            </th:block>
+            <input type="submit" value="Next" form="submitForm" class="btn btn-info w-25" sec:authorize="isAuthenticated()">
+
+        </div>
+
+</body>
+</html>

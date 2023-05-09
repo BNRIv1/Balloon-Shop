@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>WP lab - Confirmation Info</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+    </head>
+<body>
+<section>
+    <header class="text-center">
+        <h1>Balloon Order page - Order confirmation </h1>
+        <hr>
+    </header>
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th colspan="2" class="text-center">
+                    Your Order Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Client Name </b></td>
+                <td><th:block th:text="${#request.getRemoteUser()}"></th:block>
+            </tr>
+            <tr>
+                <td><b>Client IP Address</b></td>
+                <td><th:block th:text="${ipAddress}"></th:block></td>
+            </tr>
+            <tr>
+                <td><b>Client Browser</b></td>
+                <td><th:block th:text="${userAgent}"></th:block></td>
+            </tr>
+            <tr>
+                <td><b>Balloon Color </b></td>
+                <td><th:block th:text="${session.color}"></th:block></td>
+            </tr>
+            <tr>
+                <td><b>Balloon Size </b></td>
+                <td><th:block th:text="${session.size}"></th:block> </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex mt-2 justify-content-between">
+        <form th:method="POST" th:action="@{/orders/newOrder}" class="w-25">
+            <input class="btn btn-info w-100 text-center" type="submit" value="Create a new order">
+        </form>
+        <form th:method="GET" th:action="@{/shopping-cart}" class="w-25">
+            <input class="btn btn-dark w-100 text-center" type="submit" value="Current User Cart">
+        </form>
+        <form th:method="POST" th:action="@{/ConfirmationInfo}" class="w-25">
+            <input class="btn btn-danger w-100 text-center" type="submit" value="Log Out">
+        </form>
+    </div>
+    <div>
+        <form th:method="GET" th:action="@{/orders}">
+            <input class="btn btn-dark w-100 text-center" type="submit" value="View All Orders">
+        </form>
+    </div>
+
+</section>
+</body>
+</html>
